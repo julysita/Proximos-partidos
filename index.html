@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Partidos de la semana</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#000;
+color:#fff;
+overflow-x:hidden;
+}
+
+/* VIDEO FONDO */
+
+#bgVideo{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-2;
+animation:bgZoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes bgZoom{
+from{
+transform:scale(1);
+}
+to{
+transform:scale(1.08);
+}
+}
+
+.overlay{
+position:fixed;
+inset:0;
+background:
+linear-gradient(
+180deg,
+rgba(0,0,0,.30),
+rgba(0,0,0,.88)
+);
+z-index:-1;
+}
+
+/* HEADER */
+
+.header{
+padding:30px 20px;
+text-align:center;
+}
+
+.header h1{
+
+font-family:'Orbitron',sans-serif;
+
+font-size:clamp(2.5rem,5vw,5rem);
+
+font-weight:900;
+
+letter-spacing:5px;
+
+background:
+linear-gradient(
+90deg,
+#ffffff,
+#00f7ff,
+#ffffff
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+animation:glow 3s infinite alternate;
+}
+
+@keyframes glow{
+
+from{
+filter:drop-shadow(0 0 10px rgba(0,247,255,.3));
+}
+
+to{
+filter:drop-shadow(0 0 30px rgba(0,247,255,.9));
+}
+
+}
+
+/* VOLUMEN */
+
+.volume-box{
+margin-top:20px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+gap:12px;
+}
+
+#volumeControl{
+width:250px;
+cursor:pointer;
+}
+
+/* CONTENEDOR */
+
+.container{
+width:min(1300px,95%);
+margin:auto;
+
+display:flex;
+flex-direction:column;
+gap:25px;
+
+padding-bottom:40px;
+}
+
+/* TARJETAS */
+
+.match-card{
+
+position:relative;
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:28px;
+
+padding:25px;
+
+overflow:hidden;
+
+animation:fadeUp .8s ease;
+}
+
+.match-card::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:4px;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+#00f7ff,
+transparent
+);
+
+animation:shine 3s linear infinite;
+}
+
+@keyframes shine{
+
+0%{
+opacity:.2;
+}
+
+50%{
+opacity:1;
+}
+
+100%{
+opacity:.2;
+}
+
+}
+
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(40px);
+}
+
+to{
+opacity:1;
+transform:none;
+}
+
+}
+
+/* TITULOS */
+
+.match-title{
+
+text-align:center;
+
+font-size:1.3rem;
+
+font-weight:800;
+
+color:#00f7ff;
+
+margin-bottom:25px;
+}
+
+/* EQUIPOS */
+
+.teams{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:20px;
+}
+
+.team{
+
+width:40%;
+
+text-align:center;
+}
+
+.team img{
+
+width:130px;
+height:130px;
+
+object-fit:contain;
+
+padding:10px;
+
+background:rgba(255,255,255,.05);
+
+border-radius:20px;
+
+border:1px solid rgba(255,255,255,.08);
+
+box-shadow:
+0 0 15px rgba(0,247,255,.15);
+}
+
+.team h3{
+
+margin-top:12px;
+
+font-size:1.1rem;
+
+font-weight:700;
+}
+
+.vs{
+
+font-family:'Orbitron',sans-serif;
+
+font-size:2.5rem;
+
+font-weight:900;
+
+text-shadow:
+0 0 10px #00f7ff,
+0 0 30px #00f7ff;
+}
+
+/* RESULTADO */
+
+.result{
+
+margin-top:20px;
+
+text-align:center;
+
+font-size:1.1rem;
+
+font-weight:700;
+}
+
+.winner{
+
+margin-top:10px;
+
+text-align:center;
+
+font-family:'Orbitron',sans-serif;
+
+font-size:1.7rem;
+
+color:gold;
+}
+
+/* CRONOMETRO PRO */
+
+.countdown{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:8px;
+
+margin-top:25px;
+
+flex-wrap:nowrap;
+
+overflow-x:auto;
+}
+
+.countdown::-webkit-scrollbar{
+display:none;
+}
+
+.time-box{
+
+width:90px;
+height:95px;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.08),
+rgba(255,255,255,.03)
+);
+
+border:1px solid rgba(0,247,255,.2);
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+box-shadow:
+0 0 15px rgba(0,247,255,.15);
+}
+
+.time-box span{
+
+font-family:'Orbitron',sans-serif;
+
+font-size:2rem;
+
+font-weight:900;
+
+color:white;
+
+text-shadow:
+0 0 10px #00f7ff;
+
+animation:tick 1s infinite;
+}
+
+.time-box small{
+
+margin-top:6px;
+
+font-size:.75rem;
+
+font-weight:700;
+
+letter-spacing:1px;
+}
+
+.separator{
+
+font-family:'Orbitron',sans-serif;
+
+font-size:2rem;
+
+font-weight:900;
+
+color:#00f7ff;
+}
+
+@keyframes tick{
+
+50%{
+transform:scale(1.08);
+}
+
+}
+
+.footer{
+
+text-align:center;
+
+padding:25px;
+
+opacity:.8;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.team img{
+width:100px;
+height:100px;
+}
+
+.vs{
+font-size:1.8rem;
+}
+
+.time-box{
+width:70px;
+height:80px;
+}
+
+.time-box span{
+font-size:1.4rem;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<video autoplay muted loop playsinline id="bgVideo">
+<source src="video.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<audio id="music" autoplay loop>
+<source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<header class="header">
+
+<h1>Partidos de la semana</h1>
+
+<div class="volume-box">
+🔊
+<input
+type="range"
+id="volumeControl"
+min="0"
+max="1"
+step="0.01"
+value="0.5">
+</div>
+
+</header>
+
+<div class="container">
+
+<!-- PARTIDO TERMINADO -->
+
+<div class="match-card">
+
+<div class="match-title">
+PARTIDO FINALIZADO
+</div>
+
+<div class="teams">
+
+<div class="team">
+<img src="napoli.png">
+<h3>SSC Napoli</h3>
+</div>
+
+<div class="vs">VS</div>
+
+<div class="team">
+<img src="psg.png">
+<h3>Paris Saint-Germain</h3>
+</div>
+
+</div>
+
+<div class="result">
+Resultado Final
+</div>
+
+<div class="winner">
+PSG 1 - 0 Napoli 🏆
+</div>
+
+</div>
+
+<!-- JUVENTUS VS BAYERN -->
+
+<div class="match-card">
+
+<div class="match-title">
+JUEVES • 9:00 PM 🇻🇪
+</div>
+
+<div class="teams">
+
+<div class="team">
+<img src="juventus.png">
+<h3>Juventus</h3>
+</div>
+
+<div class="vs">VS</div>
+
+<div class="team">
+<img src="bayern.png">
+<h3>Bayern Múnich</h3>
+</div>
+
+</div>
+
+<div class="countdown" id="countdown1"></div>
+
+</div>
+
+<!-- BARCELONA VS CITY -->
+
+<div class="match-card">
+
+<div class="match-title">
+VIERNES • 9:00 PM 🇻🇪
+</div>
+
+<div class="teams">
+
+<div class="team">
+<img src="barcelona.png">
+<h3>FC Barcelona</h3>
+</div>
+
+<div class="vs">VS</div>
+
+<div class="team">
+<img src="city.png">
+<h3>Manchester City</h3>
+</div>
+
+</div>
+
+<div class="countdown" id="countdown2"></div>
+
+</div>
+
+</div>
+
+<div class="footer">
+⚽ Hecho por Olivia Aiku 
+</div>
+
+<script>
+
+/* MUSICA */
+
+const music =
+document.getElementById("music");
+
+const volumeControl =
+document.getElementById("volumeControl");
+
+music.volume = 0.5;
+
+volumeControl.addEventListener("input",()=>{
+
+music.volume =
+volumeControl.value;
+
+});
+
+document.addEventListener("click",()=>{
+
+music.play();
+
+},{once:true});
+
+/* FECHAS */
+
+const partido1 =
+new Date("2026-06-18T21:00:00-04:00");
+
+const partido2 =
+new Date("2026-06-19T21:00:00-04:00");
+
+function actualizarContador(fecha,id){
+
+const ahora = new Date();
+
+const diferencia =
+fecha - ahora;
+
+if(diferencia <= 0){
+
+document.getElementById(id).innerHTML =
+"<div class='winner'>🔥 PARTIDO EN CURSO</div>";
+
+return;
+}
+
+const dias =
+Math.floor(diferencia/(1000*60*60*24));
+
+const horas =
+Math.floor((diferencia%(1000*60*60*24))/(1000*60*60));
+
+const minutos =
+Math.floor((diferencia%(1000*60*60))/(1000*60));
+
+const segundos =
+Math.floor((diferencia%(1000*60))/1000);
+
+document.getElementById(id).innerHTML = `
+
+<div class="time-box">
+<span>${dias}</span>
+<small>DÍAS</small>
+</div>
+
+<div class="separator">:</div>
+
+<div class="time-box">
+<span>${horas}</span>
+<small>HORAS</small>
+</div>
+
+<div class="separator">:</div>
+
+<div class="time-box">
+<span>${minutos}</span>
+<small>MIN</small>
+</div>
+
+<div class="separator">:</div>
+
+<div class="time-box">
+<span>${segundos}</span>
+<small>SEG</small>
+</div>
+
+`;
+
+}
+
+setInterval(()=>{
+
+actualizarContador(
+partido1,
+"countdown1"
+);
+
+actualizarContador(
+partido2,
+"countdown2"
+);
+
+},1000);
+
+</script>
+
+</body>
+</html>
