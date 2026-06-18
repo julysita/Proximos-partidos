@@ -117,6 +117,43 @@ width:250px;
 cursor:pointer;
 }
 
+.music-controls{
+
+display:flex;
+justify-content:center;
+gap:12px;
+margin-top:15px;
+}
+
+.music-controls button{
+
+background:rgba(255,255,255,.08);
+
+border:1px solid rgba(0,247,255,.25);
+
+color:white;
+
+padding:10px 20px;
+
+border-radius:14px;
+
+cursor:pointer;
+
+font-weight:700;
+
+transition:.3s;
+}
+
+.music-controls button:hover{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 0 15px rgba(0,247,255,.4);
+
+border-color:#00f7ff;
+}
+
 /* CONTENEDOR */
 
 .container{
@@ -267,6 +304,52 @@ font-size:1.1rem;
 font-weight:700;
 }
 
+.goal-scorer{
+
+display:inline-flex;
+align-items:center;
+gap:6px;
+
+margin-top:10px;
+
+padding:6px 12px;
+
+border-radius:999px;
+
+background:rgba(255,215,0,.12);
+
+border:1px solid rgba(255,215,0,.25);
+
+font-size:.8rem;
+font-weight:700;
+
+color:#ffd700;
+
+backdrop-filter:blur(10px);
+
+animation:pulseGoal 2s infinite;
+}
+
+.goal-scorer span{
+opacity:.8;
+}
+
+@keyframes pulseGoal{
+
+0%{
+box-shadow:0 0 0 rgba(255,215,0,0);
+}
+
+50%{
+box-shadow:0 0 15px rgba(255,215,0,.35);
+}
+
+100%{
+box-shadow:0 0 0 rgba(255,215,0,0);
+}
+
+}
+
 .vs{
 
 font-family:'Orbitron',sans-serif;
@@ -322,8 +405,9 @@ margin-top:25px;
 
 flex-wrap:nowrap;
 
-overflow-x:auto;
+overflow:hidden;
 }
+
 
 .countdown::-webkit-scrollbar{
 display:none;
@@ -467,6 +551,18 @@ step="0.01"
 value="0.5">
 </div>
 
+<div class="music-controls">
+
+<button id="playBtn">
+▶ PLAY
+</button>
+
+<button id="pauseBtn">
+⏸ STOP
+</button>
+
+</div>
+
 </header>
 
 <div class="container">
@@ -475,33 +571,38 @@ value="0.5">
 
 <div class="match-card">
 
-<div class="match-title">
-PARTIDO FINALIZADO
-</div>
+    <div class="match-title">
+        PARTIDO FINALIZADO
+    </div>
 
-<div class="teams">
+    <div class="teams">
 
-<div class="team">
-<img src="napoli.png">
-<h3>SSC Napoli</h3>
-</div>
+        <div class="team">
+            <img src="napoli.png">
+            <h3>SSC Napoli</h3>
+        </div>
 
-<div class="vs">VS</div>
+        <div class="vs">VS</div>
 
-<div class="team">
-<img src="psg.png">
-<h3>Paris Saint-Germain</h3>
-</div>
+        <div class="team">
+            <img src="psg.png">
+            <h3>Paris Saint-Germain</h3>
 
-</div>
+            <div class="goal-scorer">
+                ⚽ <span>Lavinho</span>
+            </div>
 
-<div class="result">
-Resultado Final
-</div>
+        </div>
 
-<div class="winner">
- 0 Napoli - PSG 1  🏆
-</div>
+    </div>
+
+    <div class="result">
+        Resultado Final
+    </div>
+
+    <div class="winner">
+        SSC Napoli 0 - 1 PSG 🏆
+    </div>
 
 </div>
 
@@ -571,105 +672,118 @@ VIERNES • 9:00 PM 🇻🇪
 
 /* MUSICA */
 
-const music =
-document.getElementById("music");
+const music = document.getElementById("music");
+const volumeControl = document.getElementById("volumeControl");
 
-const volumeControl =
-document.getElementById("volumeControl");
+const playBtn = document.getElementById("playBtn");
+const pauseBtn = document.getElementById("pauseBtn");
 
-music.volume = 0.5;
-
-volumeControl.addEventListener("input",()=>{
-
-music.volume =
-volumeControl.value;
-
-});
-
-document.addEventListener("click",()=>{
+playBtn.addEventListener("click",()=>{
 
 music.play();
 
-},{once:true});
+});
 
-/* FECHAS */
+pauseBtn.addEventListener("click",()=>{
 
-const partido1 =
-new Date("2026-06-18T21:00:00-04:00");
+music.pause();
 
-const partido2 =
-new Date("2026-06-19T21:00:00-04:00");
+});
+
+music.volume = 0.5;
+
+volumeControl.addEventListener("input", () => {
+    music.volume = volumeControl.value;
+});
+
+document.addEventListener("click", () => {
+    music.play();
+}, { once: true });
+
+/* PARTIDOS */
+/* HORA ARGENTINA (22:00) */
+
+const partido1 = new Date("2026-06-18T22:00:00");
+const partido2 = new Date("2026-06-19T22:00:00");
 
 function actualizarContador(fecha,id){
 
-const ahora = new Date();
+    const ahora = new Date();
 
-const diferencia =
-fecha - ahora;
+    const diferencia =
+    fecha.getTime() - ahora.getTime();
 
-if(diferencia <= 0){
+    if(diferencia <= 0){
 
-document.getElementById(id).innerHTML =
-"<div class='winner'>🔥 PARTIDO EN CURSO</div>";
+        document.getElementById(id).innerHTML =
+        "<div class='winner'>⚽ PARTIDO INICIADO</div>";
 
-return;
+        return;
+    }
+
+    const dias =
+    Math.floor(diferencia / 86400000);
+
+    const horas =
+    Math.floor(
+        (diferencia % 86400000) / 3600000
+    );
+
+    const minutos =
+    Math.floor(
+        (diferencia % 3600000) / 60000
+    );
+
+    const segundos =
+    Math.floor(
+        (diferencia % 60000) / 1000
+    );
+
+    document.getElementById(id).innerHTML = `
+
+    <div class="time-box">
+        <span>${String(dias).padStart(2,'0')}</span>
+        <small>DÍAS</small>
+    </div>
+
+    <div class="separator">:</div>
+
+    <div class="time-box">
+        <span>${String(horas).padStart(2,'0')}</span>
+        <small>HORAS</small>
+    </div>
+
+    <div class="separator">:</div>
+
+    <div class="time-box">
+        <span>${String(minutos).padStart(2,'0')}</span>
+        <small>MIN</small>
+    </div>
+
+    <div class="separator">:</div>
+
+    <div class="time-box">
+        <span>${String(segundos).padStart(2,'0')}</span>
+        <small>SEG</small>
+    </div>
+
+    `;
 }
 
-const dias =
-Math.floor(diferencia/(1000*60*60*24));
+actualizarContador(partido1,"countdown1");
+actualizarContador(partido2,"countdown2");
 
-const horas =
-Math.floor((diferencia%(1000*60*60*24))/(1000*60*60));
+setInterval(() => {
 
-const minutos =
-Math.floor((diferencia%(1000*60*60))/(1000*60));
+    actualizarContador(
+        partido1,
+        "countdown1"
+    );
 
-const segundos =
-Math.floor((diferencia%(1000*60))/1000);
-
-document.getElementById(id).innerHTML = `
-
-<div class="time-box">
-<span>${dias}</span>
-<small>DÍAS</small>
-</div>
-
-<div class="separator">:</div>
-
-<div class="time-box">
-<span>${horas}</span>
-<small>HORAS</small>
-</div>
-
-<div class="separator">:</div>
-
-<div class="time-box">
-<span>${minutos}</span>
-<small>MIN</small>
-</div>
-
-<div class="separator">:</div>
-
-<div class="time-box">
-<span>${segundos}</span>
-<small>SEG</small>
-</div>
-
-`;
-
-}
-
-setInterval(()=>{
-
-actualizarContador(
-partido1,
-"countdown1"
-);
-
-actualizarContador(
-partido2,
-"countdown2"
-);
+    actualizarContador(
+        partido2,
+        "countdown2"
+    );
 
 },1000);
 
