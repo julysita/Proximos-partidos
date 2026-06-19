@@ -624,27 +624,39 @@ value="0.5">
 
 <div class="match-card">
 
-<div class="match-title">
-JUEVES • 9:00 PM 🇻🇪
-</div>
+    <div class="match-title">
+        PARTIDO FINALIZADO
+    </div>
 
-<div class="teams">
+    <div class="teams">
 
-<div class="team">
-<img src="Juventus.png">
-<h3>Juventus</h3>
-</div>
+        <div class="team">
+            <img src="Juventus.png">
+            <h3>Juventus</h3>
 
-<div class="vs">VS</div>
+            <div class="goal-scorer">
+                ⚽ <span>Santana</span>
+            </div>
+        </div>
 
-<div class="team">
-<img src="Bayern.png">
-<h3>Bayern Múnich</h3>
-</div>
+        <div class="vs">VS</div>
 
-</div>
+        <div class="team">
+            <img src="Bayern.png">
+            <h3>Bayern Múnich</h3>
 
-<div class="countdown" id="countdown1"></div>
+            <div class="goal-placeholder"></div>
+        </div>
+
+    </div>
+
+    <div class="result">
+        Resultado Final
+    </div>
+
+    <div class="winner">
+        Juventus 1 - 0 Bayern 🏆
+    </div>
 
 </div>
 
@@ -784,15 +796,9 @@ function actualizarContador(fecha,id){
     `;
 }
 
-actualizarContador(partido1,"countdown1");
 actualizarContador(partido2,"countdown2");
 
 setInterval(() => {
-
-    actualizarContador(
-        partido1,
-        "countdown1"
-    );
 
     actualizarContador(
         partido2,
