@@ -370,6 +370,11 @@ text-shadow:
 
 /* RESULTADO */
 
+.goal-placeholder{
+    height:32px;
+    margin-top:10px;
+}
+
 .result{
 
 margin-top:20px;
@@ -664,27 +669,39 @@ value="0.5">
 
 <div class="match-card">
 
-<div class="match-title">
-VIERNES • 9:00 PM 🇻🇪
-</div>
+    <div class="match-title">
+        PARTIDO FINALIZADO
+    </div>
 
-<div class="teams">
+    <div class="teams">
 
-<div class="team">
-<img src="Barcelona.png">
-<h3>FC Barcelona</h3>
-</div>
+        <div class="team">
+            <img src="Barcelona.png">
+            <h3>FC Barcelona</h3>
 
-<div class="vs">VS</div>
+            <div class="goal-scorer">
+                ⚽ <span>Kunigami</span>
+            </div>
+        </div>
 
-<div class="team">
-<img src="City.png">
-<h3>Manchester City</h3>
-</div>
+        <div class="vs">VS</div>
 
-</div>
+        <div class="team">
+            <img src="City.png">
+            <h3>Manchester City</h3>
 
-<div class="countdown" id="countdown2"></div>
+            <div class="goal-placeholder"></div>
+        </div>
+
+    </div>
+
+    <div class="result">
+        Resultado Final
+    </div>
+
+    <div class="winner">
+        FC Barcelona 1 - 0 Manchester City 🏆
+    </div>
 
 </div>
 
