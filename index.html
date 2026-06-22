@@ -584,104 +584,19 @@ value="0.5">
 
 <div class="container">
 
-<!-- PARTIDO TERMINADO -->
+<!-- PARTIDOS -->
 
 <div class="match-card">
 
     <div class="match-title">
-        PARTIDO FINALIZADO
-    </div>
-
-    <div class="teams">
-
-<div class="team">
-    <img src="napoli.png">
-    <h3>SSC Napoli</h3>
-
-    <div class="goal-placeholder"></div>
-</div>
-
-        <div class="vs">VS</div>
-
-        <div class="team">
-            <img src="psg.png">
-            <h3>Paris Saint-Germain</h3>
-
-            <div class="goal-scorer">
-                ⚽ <span>Lavinho</span>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="result">
-        Resultado Final
-    </div>
-
-    <div class="winner">
-        SSC Napoli 0 - 1 PSG 🏆
-    </div>
-
-</div>
-
-<!-- JUVENTUS VS BAYERN -->
-
-<div class="match-card">
-
-    <div class="match-title">
-        PARTIDO FINALIZADO
+        VIERNES - 8 PM Venezuela
     </div>
 
     <div class="teams">
 
         <div class="team">
-            <img src="Juventus.png">
-            <h3>Juventus</h3>
-
-            <div class="goal-scorer">
-                ⚽ <span>Santana</span>
-            </div>
-        </div>
-
-        <div class="vs">VS</div>
-
-        <div class="team">
-            <img src="Bayern.png">
-            <h3>Bayern Múnich</h3>
-
-            <div class="goal-placeholder"></div>
-        </div>
-
-    </div>
-
-    <div class="result">
-        Resultado Final
-    </div>
-
-    <div class="winner">
-        Juventus 1 - 0 Bayern 🏆
-    </div>
-
-</div>
-
-<!-- BARCELONA VS CITY -->
-
-<div class="match-card">
-
-    <div class="match-title">
-        PARTIDO FINALIZADO
-    </div>
-
-    <div class="teams">
-
-        <div class="team">
-            <img src="Barcelona.png">
-            <h3>FC Barcelona</h3>
-
-            <div class="goal-scorer">
-                ⚽ <span>Kunigami</span>
-            </div>
+            <img src="napoli.png">
+            <h3>SSC Napoli</h3>
         </div>
 
         <div class="vs">VS</div>
@@ -689,21 +604,63 @@ value="0.5">
         <div class="team">
             <img src="City.png">
             <h3>Manchester City</h3>
-
-            <div class="goal-placeholder"></div>
         </div>
 
     </div>
 
-    <div class="result">
-        Resultado Final
-    </div>
-
-    <div class="winner">
-        FC Barcelona 1 - 0 Manchester City 🏆
-    </div>
+    <div class="countdown" id="countdown1"></div>
 
 </div>
+
+<div class="match-card">
+
+    <div class="match-title">
+        SÁBADO - 8 PM Venezuela
+    </div>
+
+    <div class="teams">
+
+        <div class="team">
+            <img src="psg.png">
+            <h3>Paris Saint-Germain</h3>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="team">
+            <img src="Bayern.png">
+            <h3>Bayern Múnich</h3>
+        </div>
+
+    </div>
+
+    <div class="countdown" id="countdown2"></div>
+
+</div>
+
+<div class="match-card">
+
+    <div class="match-title">
+        DOMINGO - 8 PM Venezuela
+    </div>
+
+    <div class="teams">
+
+        <div class="team">
+            <img src="Juventus.png">
+            <h3>Juventus</h3>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="team">
+            <img src="Barcelona.png">
+            <h3>FC Barcelona</h3>
+        </div>
+
+    </div>
+
+    <div class="countdown" id="countdown3"></div>
 
 </div>
 
@@ -746,15 +703,14 @@ document.addEventListener("click", () => {
 /* PARTIDOS */
 /* HORA ARGENTINA (22:00) */
 
-const partido1 = new Date("2026-06-18T22:00:00");
-const partido2 = new Date("2026-06-19T22:00:00");
+const partido1 = new Date("2026-06-26T21:00:00");
+const partido2 = new Date("2026-06-27T21:00:00");
+const partido3 = new Date("2026-06-28T21:00:00");
 
 function actualizarContador(fecha,id){
 
     const ahora = new Date();
-
-    const diferencia =
-    fecha.getTime() - ahora.getTime();
+    const diferencia = fecha - ahora;
 
     if(diferencia <= 0){
 
@@ -764,21 +720,17 @@ function actualizarContador(fecha,id){
         return;
     }
 
-    const dias =
-    Math.floor(diferencia / 86400000);
+    const dias = Math.floor(diferencia / 86400000);
 
-    const horas =
-    Math.floor(
+    const horas = Math.floor(
         (diferencia % 86400000) / 3600000
     );
 
-    const minutos =
-    Math.floor(
+    const minutos = Math.floor(
         (diferencia % 3600000) / 60000
     );
 
-    const segundos =
-    Math.floor(
+    const segundos = Math.floor(
         (diferencia % 60000) / 1000
     );
 
@@ -809,20 +761,19 @@ function actualizarContador(fecha,id){
         <span>${String(segundos).padStart(2,'0')}</span>
         <small>SEG</small>
     </div>
-
     `;
 }
 
-actualizarContador(partido2,"countdown2");
+function actualizarTodo(){
 
-setInterval(() => {
+    actualizarContador(partido1,"countdown1");
+    actualizarContador(partido2,"countdown2");
+    actualizarContador(partido3,"countdown3");
 
-    actualizarContador(
-        partido2,
-        "countdown2"
-    );
+}
 
-},1000);
+actualizarTodo();
+setInterval(actualizarTodo,1000);
 
 </script>
 
