@@ -586,10 +586,12 @@ value="0.5">
 
 <!-- PARTIDOS -->
 
+<!-- NAPOLI VS CITY -->
+
 <div class="match-card">
 
     <div class="match-title">
-        VIERNES - 8 PM Venezuela
+        VIERNES • RESULTADO FINAL
     </div>
 
     <div class="teams">
@@ -597,6 +599,10 @@ value="0.5">
         <div class="team">
             <img src="napoli.png">
             <h3>SSC Napoli</h3>
+
+            <div class="goal-scorer">
+                ⚽ <span>Isagi Yoichi</span>
+            </div>
         </div>
 
         <div class="vs">VS</div>
@@ -604,11 +610,23 @@ value="0.5">
         <div class="team">
             <img src="City.png">
             <h3>Manchester City</h3>
+
+            <div class="goal-scorer">
+                ⚽ <span>Hyoma Chigiri</span>
+            </div>
         </div>
 
     </div>
 
-    <div class="countdown" id="countdown1"></div>
+    <div class="result">
+        Resultado Final
+    </div>
+
+    <div class="winner">
+        Napoli 1 - 1 Manchester City 
+    </div>
+
+</div>
 
 </div>
 
@@ -703,7 +721,6 @@ document.addEventListener("click", () => {
 /* PARTIDOS */
 /* HORA ARGENTINA (22:00) */
 
-const partido1 = new Date("2026-06-26T21:00:00");
 const partido2 = new Date("2026-06-27T21:00:00");
 const partido3 = new Date("2026-06-28T21:00:00");
 
@@ -766,7 +783,6 @@ function actualizarContador(fecha,id){
 
 function actualizarTodo(){
 
-    actualizarContador(partido1,"countdown1");
     actualizarContador(partido2,"countdown2");
     actualizarContador(partido3,"countdown3");
 
